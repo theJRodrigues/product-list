@@ -13,6 +13,7 @@ function createElements(products) {
     const img_card = document.createElement("img");
     const category = document.createElement("h2");
     const name = document.createElement("h1");
+    const priceSpan = document.createElement("span")
     const price = document.createElement("p");
     const button = document.createElement("button");
     const button_img = document.createElement("img");
@@ -22,26 +23,30 @@ function createElements(products) {
     img_card.classList.add("img-card");
     category.classList.add("category");
     name.classList.add("name");
-    price.classList.add("price");
+    priceSpan.classList.add("price");
     button.classList.add("button-product");
+
+    
 
     button.setAttribute("onclick", "addProductCart(this)");
     button_span.textContent = "Add to cart";
     button_img.src = "assets/images/icon-add-to-cart.svg";
     name.textContent = product.name;
     category.textContent = product.category;
-    price.textContent = product.price.toFixed(2);
+    price.textContent = "$";
     img_card.alt = product.name;
-
+    priceSpan.textContent = product.price.toFixed(2);
+    
     div.appendChild(img_card);
     div.appendChild(button);
     div.appendChild(category);
     div.appendChild(name);
+    price.appendChild(priceSpan);
     div.appendChild(price);
     button.appendChild(button_img);
     button.appendChild(button_span);
     products_section.appendChild(div);
-
+    console.log(div.innerHTML)
     img_card_resize(product, img_card);
   });
   //button_event(products);
@@ -72,8 +77,8 @@ function img_card_resize(product, img_card) {
 function addProductCart(button) {
   const elements = button.parentNode;
   const product = {
-    name: elements.querySelector(".name").innerHTML,
-    price: parseFloat(elements.querySelector(".price").innerHTML),
+    name: elements.querySelector(".name").textContent,
+    price: parseFloat(elements.querySelector(".price").textContent),
     count: 1,
   };
   elements.querySelector('.img-card').classList.add('itemSelected')
@@ -108,10 +113,10 @@ function createProductCart(product) {
     const unityPrice = document.createElement("span");
     const totalPrice = document.createElement("span");
 
-    nameItem.innerHTML = product.name;
-    quantityItem.innerHTML = `${product.count}x`;
-    unityPrice.innerHTML = `@$${product.price.toFixed(2)}`;
-    totalPrice.innerHTML = `$${product.price.toFixed(2)}`;
+    nameItem.textContent = product.name;
+    quantityItem.textContent = `${product.count}x`;
+    unityPrice.textContent = `@$${product.price.toFixed(2)}`;
+    totalPrice.textContent = `$${product.price.toFixed(2)}`;
 
     removeIcon.src = "assets/images/icon-remove-item.svg";
     removeIcon.alt = "remove icon";
@@ -154,7 +159,7 @@ function replaceButton(elements, button) {
   buttonDiv.appendChild(itemQuantity);
   buttonDiv.appendChild(buttonIncrement);
 
-  itemQuantity.innerHTML = 1;
+  itemQuantity.textContent = 1;
 
   buttonIncrement.src = "assets/images/icon-increment-quantity.svg";
   buttonIncrement.alt = "increment button";
@@ -167,7 +172,7 @@ function replaceButton(elements, button) {
 function incrementItem(button) {
   const elements = button.parentNode.parentNode;
   const indexProduct = productsCart.findIndex(
-    (e) => e.name === elements.querySelector(".name").innerHTML
+    (e) => e.name === elements.querySelector(".name").textContent
   );
 
   productsCart[indexProduct].count++;
@@ -181,9 +186,9 @@ function incrementItem(button) {
     product[indexProduct].querySelector(".quantityItem");
   const updateItemCard = elements.querySelector("span");
 
-  updateItemCard.innerHTML = productsCart[indexProduct].count;
-  updateItemQuantity.innerHTML = productsCart[indexProduct].count;
-  updatePriceItem.innerHTML = `$ ${productsCart[
+  updateItemCard.textContent = productsCart[indexProduct].count;
+  updateItemQuantity.textContent = productsCart[indexProduct].count;
+  updatePriceItem.textContent = `$ ${productsCart[
     indexProduct
   ].totalPriceItem.toFixed(2)}`;
 
@@ -194,7 +199,7 @@ function incrementItem(button) {
 function decrementItem(button) {
   const elements = button.parentNode.parentNode;
   const indexProduct = productsCart.findIndex(
-    (e) => e.name === elements.querySelector(".name").innerHTML
+    (e) => e.name === elements.querySelector(".name").textContent
   );
   if (productsCart[indexProduct].count < 2) {
     elements.querySelector('.img-card').classList.remove('itemSelected')
@@ -213,15 +218,15 @@ function decrementItem(button) {
     const updateQuantityItem =product[indexProduct].querySelector(".quantityItem");
     const updateItemCard = elements.querySelector("span");
 
-    updateItemCard.innerHTML = productsCart[indexProduct].count;
-    updateQuantityItem.innerHTML = productsCart[indexProduct].count;
-    updatePriceItem.innerHTML = `$ ${productsCart[indexProduct].totalPriceItem.toFixed(2)}`;
+    updateItemCard.textContent = productsCart[indexProduct].count;
+    updateQuantityItem.textContent = productsCart[indexProduct].count;
+    updatePriceItem.textContent = `$ ${productsCart[indexProduct].totalPriceItem.toFixed(2)}`;
     totalItensCart();
     totalPriceCart();
     
   }
 
-  if(document.querySelector('.cartTotalItens').innerHTML === '0'){
+  if(document.querySelector('.cartTotalItens').textContent === '0'){
     const cartProducts = document.querySelector(".cart-products");
     const cartEmpty = document.querySelector(".cart-empty");
     cartProducts.style.display = "none";
@@ -232,7 +237,7 @@ function decrementItem(button) {
 
 function totalItensCart() {
   const cartTotalItem = document.querySelector(".cartTotalItens");
-  cartTotalItem.innerHTML = productsCart.reduce(
+  cartTotalItem.textContent = productsCart.reduce(
     (total, number) => total + number.count,
     0
   );
@@ -240,7 +245,7 @@ function totalItensCart() {
 
 function totalPriceCart() {
   const totalPriceCart = document.querySelector("#totalPrice");
-  totalPriceCart.innerHTML =
+  totalPriceCart.textContent =
     "$" +
     productsCart
       .reduce((total, number) => total + number.totalPriceItem, 0)
