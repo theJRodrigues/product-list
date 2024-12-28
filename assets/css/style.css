@@ -5,7 +5,7 @@
   font-family: "Red Hat Text", serif;
   font-optical-sizing: auto;
 }
-html{
+html {
   font-size: 62.5%;
 }
 :root {
@@ -54,8 +54,8 @@ body {
 .img-card {
   width: 100%;
 }
-.itemSelected{
-  border: 3px solid var(--Red);
+.itemSelected {
+  border: 2px solid var(--Red);
 }
 .button-product {
   cursor: pointer;
@@ -64,6 +64,7 @@ body {
   justify-content: center;
   background-color: white;
   width: 15rem;
+  height: 4.4rem;
   gap: 1rem;
   padding: 1rem;
   border: 1px solid var(--Red);
@@ -73,11 +74,11 @@ body {
   top: -20px;
 }
 
-.buttonDiv{
+.buttonDiv {
+  display: none;
   max-width: 15rem;
   height: 4.4rem;
   background-color: var(--Red);
-  display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1.5rem;
@@ -87,26 +88,27 @@ body {
   top: -20px;
 }
 
-.buttonIncrement,.buttonDecrement{
+.buttonIncrement,
+.buttonDecrement {
   height: 2rem;
   width: 2rem;
   padding: 0.3rem;
   border: 1px solid white;
-  border-radius: 50% ;
+  border-radius: 50%;
 }
 
-.cart-products{
+.cart-products {
   display: none;
   flex-direction: column;
   gap: 3rem;
 }
 
-.total{
+.total {
   display: flex;
   justify-content: space-between;
 }
 
-.delivery-name{
+.delivery-name {
   display: inherit;
   justify-content: center;
   align-items: center;
