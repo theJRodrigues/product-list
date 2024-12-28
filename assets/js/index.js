@@ -68,7 +68,6 @@ function createElements(products) {
     products_section.appendChild(div);
     img_card_resize(product, img_card);
   });
-  //button_event(products);
 }
 
 function img_card_resize(product, img_card) {
@@ -143,6 +142,7 @@ function createProductCart(product) {
     item.classList.add("itemUnity");
     infoItem.classList.add("infoItem");
     removeIcon.classList.add("removeIcon");
+    removeIcon.setAttribute('onclick', 'removeItem(this.parentNode)')
     nameItem.classList.add("nameItem");
     quantityItem.classList.add("quantityItem");
     unityPrice.classList.add("unityPrice");
@@ -231,6 +231,36 @@ function decrementItem(button) {
     cartEmpty.style.display = "block";
   }
 }
+function removeItem(element){
+  const indexProduct = productsCart.findIndex(
+    (e) => e.name === element.querySelector(".nameItem").textContent
+  );
+  const product = document.querySelectorAll(".itemUnity");
+  const parent = document.querySelector('.cart-item');
+  const nameItem = Array.from(document.querySelectorAll('.name'));
+  const indexButton = nameItem.findIndex((e)=> e.textContent === element.querySelector(".nameItem").textContent);
+  const buttonAddCard = document.querySelectorAll('.button-product');
+  const buttonIncrementCard = document.querySelectorAll('.buttonDiv');
+  const imgProductBorder = document.querySelectorAll('.img-card');
+
+  imgProductBorder[indexButton].classList.remove('itemSelected');
+  buttonAddCard[indexButton].style.display = "flex";
+  buttonIncrementCard[indexButton].style.display = 'none';
+
+  parent.removeChild(product[indexProduct]);
+  productsCart.splice(indexProduct, 1);
+
+  totalItensCart();
+  totalPriceCart();
+
+  if (document.querySelector(".cartTotalItens").textContent === "0") {
+    const cartProducts = document.querySelector(".cart-products");
+    const cartEmpty = document.querySelector(".cart-empty");
+    cartProducts.style.display = "none";
+    cartEmpty.style.display = "block";
+  }
+  
+}
 
 function totalItensCart() {
   const cartTotalItem = document.querySelector(".cartTotalItens");
@@ -247,4 +277,14 @@ function totalPriceCart() {
     productsCart
       .reduce((total, number) => total + number.totalPriceItem, 0)
       .toFixed(2);
+}
+
+function confirmOrder(){
+  var imgThumbnail = [];
+  fetch("assets/js/data.json")
+    .then((response) => response.json())
+    .then((products) => {
+      products.map((product) => imgThumbnail.push({name: product.name, img: product.image.thumbnail}))
+    });
+  console.log(imgThumbnail)
 }
