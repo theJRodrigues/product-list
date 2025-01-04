@@ -29,16 +29,19 @@ body {
 }
 
 .main {
-  padding: 50px;
-  max-width: 1100px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 35rem;
+  
 }
 #products-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.img-card {
-  border-radius: 10px;
+
+.title{
+  font-size: 3.5rem;
 }
 .box-cards {
   display: flex;
@@ -47,17 +50,19 @@ body {
   flex-wrap: wrap;
 }
 .card {
-  max-width: 25rem;
+  max-width: 35rem;
   width: 100%;
 }
 
 .img-card {
+  border-radius: 1rem;
   width: 100%;
 }
-.itemSelected {
-  border: 2px solid var(--Red);
-}
+
 .button-product {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--Rose-900);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -74,6 +79,28 @@ body {
   top: -20px;
 }
 
+.category{
+  color: var(--Rose-500);
+  font-weight: 400;
+  font-size: 1.4rem;
+}
+
+.name{
+  color: var(--Rose-900);
+  font-weight: 600;
+  font-size: 1.6rem;
+}
+
+.card p{
+  font-weight: 600;
+  font-size: 1.6rem;
+  color: var(--Red);
+}
+.itemSelected {
+  border: 2px solid var(--Red);
+}
+
+
 .buttonDiv {
   display: none;
   max-width: 15rem;
@@ -86,6 +113,9 @@ body {
   margin: 0 auto;
   position: relative;
   top: -20px;
+  font-size: 1.5rem;
+  color: white;
+  font-weight: 600;
 }
 
 .buttonIncrement,
@@ -95,6 +125,23 @@ body {
   padding: 0.3rem;
   border: 1px solid white;
   border-radius: 50%;
+  
+}
+.cart-section{
+  margin-top: 5rem;
+}
+
+.cart-section > h1{
+  font-size: 2.5rem;
+  color: var(--Red);
+}
+
+.cart-empty{
+  margin-top: 1.5rem;
+  font-size: 1.6rem;
+  color: var(--Rose-500);
+  font-weight: 600;
+  text-align: center;
 }
 
 .cart-products {
@@ -102,10 +149,69 @@ body {
   flex-direction: column;
   gap: 3rem;
 }
+.cart-item{
+  margin-top: 2rem;
+display: flex;
+flex-direction: column;
+gap: 2rem;
+}
+.itemUnity{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.infoItem .nameItem{
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--Rose-900);
+  margin-bottom: 0.5rem;
+}
+
+.infoItem span{
+  font-size: 1.4rem;
+  margin-right: 1.5rem;
+  font-weight: 600;
+}
+
+.quantityItem{
+  color: var(--Red);
+}
+
+.unityPrice{
+  color: var(--Rose-400);
+}
+
+.totalPriceItem{
+  color: var(--Rose-500);
+}
+
+.removeIcon{
+  padding: 1.5px;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--Rose-300);
+  border-radius: 50%;
+  cursor: pointer;
+}
 
 .total {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.total h3{
+  color: var(--Rose-500);
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+.total h1{
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--Rose-900);
 }
 
 .delivery-name {
@@ -113,4 +219,131 @@ body {
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  background-color: var(--Rose-100);
+  padding: 2rem 0;
+  border-radius: 1rem;
+  width: 90%;
+  margin: 0 auto;
+  font-size: 1.4rem;
+  color: var(--Rose-900);
+}
+
+#confirm-order-button{
+  width: 90%;
+  padding: 1.5rem 0;
+  margin: 0 auto;
+  border-radius: 3rem;
+  border: none;
+  background-color: var(--Red);
+  color: var(--Rose-50);
+  font-size: 1.6rem;
+  font-weight:400;
+  cursor: pointer;
+}
+
+.modalOrderConfirmed{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0; 
+  z-index: 999;
+  background-color: hsla(0, 0%, 25%, 0.342);
+  display: none;
+  align-items: end;
+  justify-content: center;
+}
+
+.modalBox{
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background-color: white;
+  width: 100%;
+  max-height: 95%;
+  border-radius: 2rem;
+  padding: 2rem;
+}
+
+.modalBox img{
+  width: 6rem;
+}
+
+.modalBox h1{
+  font-size: 5rem;
+  color: var(--Rose-900);
+  font-weight: 700;
+}
+
+.modalBox p{
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--Rose-400)
+}
+.productsConfirmed{
+  display: flex;
+  max-height: 50%;
+  flex-direction: column;
+  gap: 2rem;
+  background-color: var(--Rose-50);
+  padding: 2rem;
+  border-radius: 1rem;
+  overflow: scroll;
+}
+.unityItemConfirmed{
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+.productInfoConfirmed{
+  flex-grow: 1;
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+.unityItemConfirmed .nameItemConfirmed{
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: var(--Rose-900);
+  font-weight: 600;
+}
+
+.quantityItemConfirmed{
+  color: var(--Red);
+  margin-right: 2rem;
+}
+
+.unityPriceConfirmed{
+  color: var(--Rose-400);
+  font-weight: 400;
+}
+.unityItemConfirmed .unityTotalPriceConfirmed{
+  font-size: 1.6rem;
+}
+
+.unityItemConfirmed img{
+  width: 5rem;
+  border-radius: 0.3rem;
+}
+
+#totalPriceConfirmed{
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.total span{
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--Rose-900);
+}
+
+.modalBox button{
+  width: 100%;
+  padding: 1.5rem 0;
+  border-radius: 3rem;
+  border: none;
+  background-color: var(--Red);
+  color: var(--Rose-50);
+  font-size: 1.6rem;
+  font-weight:600;
+  cursor: pointer;
 }
