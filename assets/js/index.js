@@ -100,7 +100,7 @@ function addProductCart(button) {
     price: parseFloat(elements.querySelector(".price").textContent),
     count: 1,
   };
-  elements.querySelector(".img-card").classList.add("itenselected");
+  elements.querySelector(".img-card").classList.add("itemSelected");
   replaceButton(elements);
   createProductCart(product);
 }
@@ -197,7 +197,7 @@ function decrementItem(button) {
     (e) => e.name === elements.querySelector(".name").textContent
   );
   if (productsCart[indexProduct].count < 2) {
-    elements.querySelector(".img-card").classList.remove("itenselected");
+    elements.querySelector(".img-card").classList.remove("itemSelected");
     productsCart.splice(indexProduct, 1);
     const product = document.querySelectorAll(".itemUnity");
     const parent = product[indexProduct].parentNode;
@@ -244,7 +244,7 @@ function removeItem(element){
   const buttonIncrementCard = document.querySelectorAll('.buttonDiv');
   const imgProductBorder = document.querySelectorAll('.img-card');
 
-  imgProductBorder[indexButton].classList.remove('itenselected');
+  imgProductBorder[indexButton].classList.remove('itemSelected');
   buttonAddCard[indexButton].style.display = "flex";
   buttonIncrementCard[indexButton].style.display = 'none';
 

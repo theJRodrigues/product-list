@@ -1,0 +1,26 @@
+@media (min-width: 1080px) {
+    .main{
+        display: flex;
+        padding: 5rem;
+        gap: 5rem;   
+        align-items: start;
+    }
+
+    .cart-section{
+        padding: 3rem;
+        width: 100%;
+    }
+
+    .box-cards{
+        justify-content: space-between;
+    }
+    .modalOrderConfirmed{
+        align-items: center;
+    }
+    .modalBox{
+        height: auto;
+        width: 70rem;
+        padding: 3rem;
+
+    }
+}

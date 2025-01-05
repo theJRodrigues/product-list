@@ -1,0 +1,20 @@
+@media (min-width: 800px) {
+    .main{
+        max-width: none;
+        padding: 3rem;
+    }
+
+    .cart-section{
+        max-width: 50rem;
+        margin: 0 auto;
+    }
+
+    .box-cards{
+        justify-content: space-around;
+    }
+
+
+
+    
+    
+}
