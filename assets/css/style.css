@@ -38,6 +38,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  max-width: 90rem;
 }
 
 .title{

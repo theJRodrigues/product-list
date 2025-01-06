@@ -4,11 +4,12 @@
         padding: 5rem;
         gap: 5rem;   
         align-items: start;
+        max-width: 150rem;
     }
 
     .cart-section{
         padding: 3rem;
-        width: 100%;
+        width: 50%;
     }
 
     .box-cards{
