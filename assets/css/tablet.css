@@ -1,4 +1,4 @@
-@media (min-width: 800px) {
+@media (min-width: 685px) {
     .main{
         max-width: none;
         padding: 3rem;
@@ -9,9 +9,9 @@
         margin: 0 auto;
     }
 
-    .box-cards{
-        justify-content: space-around;
-    }
+    #products-section {
+        margin: 0 auto;
+      }
 
 
 
