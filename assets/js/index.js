@@ -1,126 +1,153 @@
+let catalogItems = [];
+const productsCart = [];
+
 (() => {
   fetch("assets/js/data.json")
     .then((response) => response.json())
-    .then((products) => {
-      createElements(products);
-    });
+    .then(response => {
+      catalogItems = response;
+      return catalogItems;
+    })
+    .then(createElements);
 })();
 
+function createImgCardElement(name, image) {
+  const imgCard = document.createElement("img");
+  imgCard.classList.add("img-card");
+  imgCard.alt = name;
+
+  imgCard.src = window.innerWidth >= 750 ? image.desktop : image.mobile;
+  window.addEventListener("resize", () => {
+    imgCard.src = window.innerWidth >= 750 ? image.desktop : image.mobile;
+  });
+
+  return imgCard;
+}
+
+function createAddToCartButton(id) {
+  const buttonElement = document.createElement("button");
+  buttonElement.classList.add("button-product");
+  buttonElement.setAttribute("onclick", `addProductCart("${id}", this)`);
+
+  const imgElement = document.createElement("img");
+  imgElement.src = "assets/images/icon-add-to-cart.svg";
+
+  const labelElement = document.createElement("span");
+  labelElement.textContent = "Add to cart";
+
+  buttonElement.appendChild(imgElement);
+  buttonElement.appendChild(labelElement);
+
+  return buttonElement;
+}
+
+function createQuantityControllerButton() {
+  const containerElement = document.createElement("div");
+  containerElement.classList.add("buttonDiv");
+
+  const buttonIncrement = document.createElement("img");
+  buttonIncrement.classList.add("buttonIncrement");
+  buttonIncrement.setAttribute("onclick", "incrementItem(this)");
+  buttonIncrement.style.cursor = "pointer";
+  buttonIncrement.src = "assets/images/icon-increment-quantity.svg";
+  buttonIncrement.alt = "increment button";
+
+  const buttonDecrement = document.createElement("img");
+  buttonDecrement.classList.add("buttonDecrement");
+  buttonDecrement.setAttribute("onclick", "decrementItem(this)");
+  buttonDecrement.style.cursor = "pointer";
+  buttonDecrement.src = "assets/images/icon-decrement-quantity.svg";
+  buttonDecrement.alt = "increment button";
+
+  const itemQuantity = document.createElement("span");
+  itemQuantity.classList.add('itemQuantityCard');
+  itemQuantity.textContent = 1;
+
+  containerElement.appendChild(buttonDecrement);
+  containerElement.appendChild(itemQuantity);
+  containerElement.appendChild(buttonIncrement);
+
+  return containerElement;
+}
+
+function createCategoryTitle(category) {
+  const categoryElement = document.createElement("h2");
+  categoryElement.classList.add("category");
+  categoryElement.textContent = category;
+
+  return categoryElement;
+}
+
+function createNameTitle(name) {
+  const nameElement = document.createElement("h1");
+  nameElement.classList.add("name");
+  nameElement.textContent = name;
+
+  return nameElement;
+}
+
+function createPriceText(price) {
+  const priceSpan = document.createElement("span");
+  priceSpan.classList.add("price");
+  priceSpan.textContent = price.toFixed(2);
+
+  const priceElement = document.createElement("p");
+  priceElement.textContent = "$";
+
+  priceElement.appendChild(priceSpan);
+
+  return priceElement;
+}
+
+function createProductElement(product) {
+  const card = document.createElement("div");
+  card.classList.add("card");
+
+  card.appendChild(createImgCardElement(product.name, product.image));
+  card.appendChild(createAddToCartButton(product.id));
+  card.appendChild(createQuantityControllerButton());
+  card.appendChild(createCategoryTitle(product.category));
+  card.appendChild(createNameTitle(product.name));
+  card.appendChild(createPriceText(product.price));
+
+  return card;
+}
+
 function createElements(products) {
-  const products_section = document.querySelector(".box-cards");
+  const productsSection = document.querySelector(".box-cards");
+
   products.map((product) => {
-    const div = document.createElement("div");
-    const img_card = document.createElement("img");
-    const category = document.createElement("h2");
-    const name = document.createElement("h1");
-    const priceSpan = document.createElement("span");
-    const price = document.createElement("p");
-    const button = document.createElement("button");
-    const button_img = document.createElement("img");
-    const button_span = document.createElement("span");
-    const buttonIncrement = document.createElement("img");
-    const buttonDecrement = document.createElement("img");
-    const buttonDiv = document.createElement("div");
-    const itemQuantity = document.createElement("span");
-
-    div.classList.add("card");
-    img_card.classList.add("img-card");
-    category.classList.add("category");
-    name.classList.add("name");
-    priceSpan.classList.add("price");
-    button.classList.add("button-product");
-    buttonDiv.classList.add("buttonDiv");
-    buttonIncrement.classList.add("buttonIncrement");
-    buttonDecrement.classList.add("buttonDecrement");
-    itemQuantity.classList.add('itemQuantityCard');
-    buttonIncrement.setAttribute("onclick", "incrementItem(this)");
-    buttonDecrement.setAttribute("onclick", "decrementItem(this)");
-    buttonIncrement.style.cursor = "pointer";
-    buttonDecrement.style.cursor = "pointer";
-
-    button.setAttribute("onclick", "addProductCart(this)");
-    button_span.textContent = "Add to cart";
-    button_img.src = "assets/images/icon-add-to-cart.svg";
-    name.textContent = product.name;
-    category.textContent = product.category;
-    price.textContent = "$";
-    itemQuantity.textContent = 1;
-    img_card.alt = product.name;
-    priceSpan.textContent = product.price.toFixed(2);
-    buttonIncrement.src = "assets/images/icon-increment-quantity.svg";
-    buttonIncrement.alt = "increment button";
-    buttonDecrement.src = "assets/images/icon-decrement-quantity.svg";
-    buttonDecrement.alt = "increment button";
-
-    button.appendChild(button_img);
-    button.appendChild(button_span);
-    buttonDiv.appendChild(buttonDecrement);
-    buttonDiv.appendChild(itemQuantity);
-    buttonDiv.appendChild(buttonIncrement);
-    price.appendChild(priceSpan);
-    div.appendChild(img_card);
-    div.appendChild(button);
-    div.appendChild(buttonDiv);
-    div.appendChild(category);
-    div.appendChild(name);
-    div.appendChild(price);
-   
-    products_section.appendChild(div);
-    img_card_resize(product, img_card);
-    
+    productsSection.appendChild(createProductElement(product));
   });
 }
 
-function img_card_resize(product, img_card) {
-  if (window.innerWidth >= 750) {
-    img_card.src = product.image.desktop;
-    window.addEventListener("resize", () => {
-      if (window.innerWidth < 750) {
-        img_card.src = product.image.mobile;
-      } else {
-        img_card.src = product.image.desktop;
-      }
-    });
-  } else {
-    img_card.src = product.image.mobile;
-    window.addEventListener("resize", () => {
-      if (window.innerWidth > 750) {
-        img_card.src = product.image.desktop;
-      } else {
-        img_card.src = product.image.mobile;
-      }
-    });
+function addProductCart({ id, button }) {
+  if (id) {
+    const product = catalogItems.find(item => item.id === id);
+    createProductCart({ ...product, count: 1 });
+  }
+
+  if (button) {
+    button.parentNode.querySelector(".img-card").classList.add("itemSelected");
+    replaceButton(button.parentNode);
   }
 }
 
-function addProductCart(button) {
-  const elements = button.parentNode;
-  const product = {
-    name: elements.querySelector(".name").textContent,
-    price: parseFloat(elements.querySelector(".price").textContent),
-    count: 1,
-  };
-  elements.querySelector(".img-card").classList.add("itemSelected");
-  replaceButton(elements);
-  createProductCart(product);
+function removeEmptyCart() {
+  const cartProducts = document.querySelector(".cart-products");
+  const cartEmpty = document.querySelector(".cart-empty");
+  cartProducts.style.display = "flex";
+  cartEmpty.style.display = "none";
 }
 
-var productsCart = [];
 function createProductCart(product) {
-  //Remove div cart empty
-  {
-    const cartProducts = document.querySelector(".cart-products");
-    const cartEmpty = document.querySelector(".cart-empty");
-    cartProducts.style.display = "flex";
-    cartEmpty.style.display = "none";
-  }
+  removeEmptyCart();
 
   productsCart.push({
-    name: product.name,
-    price: product.price,
+    ...product,
     totalPriceItem: product.price,
-    count: product.count,
   });
+
   //Create Product in cart
   {
     const cartItem = document.querySelector(".cart-item");
@@ -134,8 +161,8 @@ function createProductCart(product) {
 
     nameItem.textContent = product.name;
     quantityItem.textContent = `${product.count}x`;
-    unityPrice.textContent = `@ $${product.price.toFixed(2)}`;
-    totalPrice.textContent = `$${product.price.toFixed(2)}`;
+    unityPrice.textContent = `@ $${product.price}`;
+    totalPrice.textContent = `$${product.price}`;
 
     removeIcon.src = "assets/images/icon-remove-item.svg";
     removeIcon.alt = "remove icon";
@@ -157,8 +184,9 @@ function createProductCart(product) {
     infoItem.appendChild(unityPrice);
     infoItem.appendChild(totalPrice);
   }
-  totalitensCart();
-  totalPriceCart();
+
+  updateTotalItensCart();
+  updateTotalPriceCart();
 }
 
 function replaceButton(elements) {
@@ -174,21 +202,28 @@ function incrementItem(button) {
     (e) => e.name === elements.querySelector(".name").textContent
   );
 
-  productsCart[indexProduct].count++;
-  productsCart[indexProduct].totalPriceItem =
-  productsCart[indexProduct].price * productsCart[indexProduct].count;
+  const product = productsCart[indexProduct];
 
-  const product = document.querySelectorAll(".itemUnity");
-  const updatePriceItem = product[indexProduct].querySelector(".totalPriceItem");
-  const updateItemQuantity = product[indexProduct].querySelector(".quantityItem");
+  const updatedProduct = {
+    ...product,
+    count: product.count + 1,
+    totalPriceItem: product.price * product.count
+  }
+
+  productsCart[indexProduct] = updatedProduct;
+
+  const productElement = document.querySelectorAll(".itemUnity")[indexProduct];
+
+  const updatePriceItem = productElement.querySelector(".totalPriceItem");
+  const updateItemQuantity = productElement.querySelector(".quantityItem");
   const updateItemCard = elements.querySelector(".itemQuantityCard");
 
-  updateItemCard.textContent = productsCart[indexProduct].count;
-  updateItemQuantity.textContent = `${productsCart[indexProduct].count}x`;
-  updatePriceItem.textContent = `$ ${productsCart[indexProduct].totalPriceItem.toFixed(2)}`;
+  updateItemCard.textContent = product.count;
+  updateItemQuantity.textContent = `${product.count}x`;
+  updatePriceItem.textContent = `$ ${product.totalPriceItem.toFixed(2)}`;
 
-  totalitensCart();
-  totalPriceCart();
+  updateTotalItensCart();
+  updateTotalPriceCart();
 }
 
 function decrementItem(button) {
@@ -207,22 +242,22 @@ function decrementItem(button) {
     buttonAdd.style.display = 'flex';
     buttonIncrement.style.display = 'none';
     parent.removeChild(product[indexProduct]);
-    totalitensCart();
-    totalPriceCart();
+    updateTotalItensCart();
+    updateTotalPriceCart();
   } else {
     productsCart[indexProduct].count--;
     productsCart[indexProduct].totalPriceItem =
-    productsCart[indexProduct].price * productsCart[indexProduct].count;
+      productsCart[indexProduct].price * productsCart[indexProduct].count;
     const product = document.querySelectorAll(".itemUnity");
-    const updatePriceItem =product[indexProduct].querySelector(".totalPriceItem");
-    const updateQuantityItem =product[indexProduct].querySelector(".quantityItem");
+    const updatePriceItem = product[indexProduct].querySelector(".totalPriceItem");
+    const updateQuantityItem = product[indexProduct].querySelector(".quantityItem");
     const updateItemCard = elements.querySelector(".itemQuantityCard");
 
     updateItemCard.textContent = productsCart[indexProduct].count;
     updateQuantityItem.textContent = `${productsCart[indexProduct].count}x`;
     updatePriceItem.textContent = `$ ${productsCart[indexProduct].totalPriceItem.toFixed(2)}`;
-    totalitensCart();
-    totalPriceCart();
+    updateTotalItensCart();
+    updateTotalPriceCart();
   }
 
   if (document.querySelector(".cartTotalItens").textContent == 0) {
@@ -232,14 +267,15 @@ function decrementItem(button) {
     cartEmpty.style.display = "block";
   }
 }
-function removeItem(element){
+
+function removeItem(element) {
   const indexProduct = productsCart.findIndex(
     (e) => e.name === element.querySelector(".nameItem").textContent
   );
   const product = document.querySelectorAll(".itemUnity");
   const parent = document.querySelector('.cart-item');
   const nameItem = Array.from(document.querySelectorAll('.name'));
-  const indexButton = nameItem.findIndex((e)=> e.textContent === element.querySelector(".nameItem").textContent);
+  const indexButton = nameItem.findIndex((e) => e.textContent === element.querySelector(".nameItem").textContent);
   const buttonAddCard = document.querySelectorAll('.button-product');
   const buttonIncrementCard = document.querySelectorAll('.buttonDiv');
   const imgProductBorder = document.querySelectorAll('.img-card');
@@ -251,8 +287,8 @@ function removeItem(element){
   parent.removeChild(product[indexProduct]);
   productsCart.splice(indexProduct, 1);
 
-  totalitensCart();
-  totalPriceCart();
+  updateTotalItensCart();
+  updateTotalPriceCart();
 
   if (document.querySelector(".cartTotalItens").textContent == 0) {
     const cartProducts = document.querySelector(".cart-products");
@@ -260,10 +296,9 @@ function removeItem(element){
     cartProducts.style.display = "none";
     cartEmpty.style.display = "block";
   }
-  
 }
 
-function totalitensCart() {
+function updateTotalItensCart() {
   const cartTotalItem = document.querySelector(".cartTotalItens");
   cartTotalItem.textContent = productsCart.reduce(
     (total, number) => total + number.count,
@@ -271,26 +306,26 @@ function totalitensCart() {
   );
 }
 
-function totalPriceCart() {
+function updateTotalPriceCart() {
   const totalPriceCart = document.querySelector("#totalPrice");
-  totalPriceCart.textContent =
-    "$" +
-    productsCart
-      .reduce((total, number) => total + number.totalPriceItem, 0)
-      .toFixed(2);
+  const totalPriceCartValue = productsCart
+    .reduce((total, number) => total + number.totalPriceItem, 0)
+    .toFixed(2);
+
+  totalPriceCart.textContent = `$ ${totalPriceCartValue}`;
 }
 
-function confirmOrder(){
+function confirmOrder() {
   document.querySelector('.modalOrderConfirmed').style.display = 'flex'
   var imgThumbnail = [];
   fetch("assets/js/data.json")
     .then((response) => response.json())
     .then((products) => {
       products.map((product) => {
-       imgThumbnail.push({name: product.name, img: product.image.thumbnail})
+        imgThumbnail.push({ name: product.name, img: product.image.thumbnail })
       })
 
-      productsCart.map((product) =>{
+      productsCart.map((product) => {
         const products1 = document.querySelector('.productsConfirmed');
         const productBox = document.createElement('div');
         const img = document.createElement('img');
@@ -306,25 +341,25 @@ function confirmOrder(){
         productBox.classList.add('unityItemConfirmed')
         productInfos.classList.add('productInfoConfirmed')
         totalPrice.classList.add('unityTotalPriceConfirmed')
-        
+
         img.src = imgThumbnail[imgThumbnail.findIndex((e) => e.name === product.name)].img;
         name.textContent = product.name;
-        quantity.textContent = `${product.count}x`;
-        unityPrice.textContent = `@ $${(product.price).toFixed(2)}`;
-        totalPrice.textContent = `$${(product.totalPriceItem).toFixed(2)}`;
-  
+        quantity.textContent = `${product.count} x`;
+        unityPrice.textContent = `@$${(product.price).toFixed(2)} `;
+        totalPrice.textContent = `$${(product.totalPriceItem).toFixed(2)} `;
+
         productInfos.appendChild(name);
         productInfos.appendChild(quantity);
         productInfos.appendChild(unityPrice);
-  
+
         productBox.appendChild(img);
         productBox.appendChild(productInfos);
         productBox.appendChild(totalPrice);
-  
+
         products1.appendChild(productBox);
       })
     });
-    const totalPriceitens = document.querySelector('#totalPriceConfirmed')
-    productsCart.reduce((total, number) => total + number.totalPriceItem, 0).toFixed(2);
-    totalPriceitens.textContent = `$${productsCart.reduce((total, number) => total + number.totalPriceItem, 0).toFixed(2)}`;
+  const totalPriceItens = document.querySelector('#totalPriceConfirmed')
+  productsCart.reduce((total, number) => total + number.totalPriceItem, 0).toFixed(2);
+  totalPriceItens.textContent = `$${productsCart.reduce((total, number) => total + number.totalPriceItem, 0).toFixed(2)} `;
 }
