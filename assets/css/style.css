@@ -31,8 +31,6 @@ body {
 .main {
   padding: 2rem;
   width: 100%;
-  max-width: 35rem;
-  
 }
 #products-section {
   display: flex;
